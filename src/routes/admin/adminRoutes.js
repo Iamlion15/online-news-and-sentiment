@@ -11,6 +11,7 @@ router.post("/updateaccessrights",checkAuth,adminController.updateAccessRights);
 router.post("/modifyuser",checkAuth,adminController.updateUser);
 router.delete("/deleteuser",checkAuth,adminController.deleteUser);
 router.get("/getusers",checkAuth,adminController.getallUsers);
+router.get("/getoneuser/:id",checkAuth,adminController.findUser)
 router.post("/login",adminController.login);
 router.get("/getnews",checkAuth,adminController.getAllNews);
 router.get("/getreviews",checkAuth,adminController.getAllReviews);

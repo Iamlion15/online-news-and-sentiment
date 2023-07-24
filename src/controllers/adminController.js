@@ -23,7 +23,7 @@ class adminController {
         }
     }
     static async addUser(req, res) {
-        const user = new userModel({...req.body,password:await hashPassword(req.body.password)});
+        const user = new userModel({ ...req.body, password: await hashPassword(req.body.password) });
         try {
             const data = await user.save();
             res.status(200).json({ "message": "successfully saved" })
@@ -40,18 +40,16 @@ class adminController {
             }
         }
     }
-
     static async findUser(req, res) {
-        const user = await userModel.findOne({ nID: req.body.nID })
+        const nid = req.params.id
+        const user = await userModel.findOne({ _id: nid })
         if (user == null) {
-            res.status(200).json({ "code": "no", "message": "visitor not found" })
+            res.status(200).json({ "code": "no", "message": "user not found" })
         }
         else {
             res.status(200).json({ "code": "yes", "message": user })
         }
     }
-
-
 
     static async updateUser(req, res) {
         const user = await userModel.findOne({ nID: req.body.nID });
@@ -80,49 +78,58 @@ class adminController {
         }
     }
 
-    static async getAllNews(req,res)
-    {
+    static async getAllNews(req, res) {
         try {
-            const news=await newsModel.find();
+            const news = await newsModel.find();
             res.status(200).json(news)
         } catch (error) {
             res.status(404).json(error.message);
         }
     }
-    
-    static async getAllReviews(req,res)
-    {
+
+    static async getAllReviews(req, res) {
         try {
-            const reviews=await reviewModel.find().populate('news').populate('personel');
+            const reviews = await reviewModel.find().populate('news').populate('personel');
             res.status(200).json(reviews)
         } catch (error) {
             res.status(404).json(error.message)
         }
     }
 
-    static async accessRights(req,res){
+    static async accessRights(req, res) {
         try {
-            const privileges=new privilegeModel(req.body);
-            const data=await privileges.save();
-            res.status(200).json({"message":"successfully granted"})
+            const privileges = new privilegeModel(req.body);
+            const data = await privileges.save();
+            res.status(200).json({ "message": "successfully granted" })
         } catch (error) {
             res.status(404).json(error.message)
         }
     }
     static async updateAccessRights(req, res) {
         const right = await privilegeModel.findOne({ nID: req.body.nID });
+        let privileg;
+        if(right.privilege=="GRANTED")
+        {
+            privileg="NO_ACCESS"
+        }
+        else{
+            if(right.privilege=="GRANTED")
+            {
+                privileg="GRANTED"
+            }
+        }
+
         try {
-            const data = await privilegeModel.findOneAndUpdate(right._id, req.body);
+            const data = await privilegeModel.findOneAndUpdate(right._id, {...req.body,privilege:privileg});
             res.status(200).json({ "message": "successfully updated" })
         } catch (error) {
             res.status(404).json(error.message);
         }
     }
 
-    static async getAllAccessRights(req,res)
-    {
+    static async getAllAccessRights(req, res) {
         try {
-            const privileges=await privilegeModel.find().populate("user");
+            const privileges = await privilegeModel.find().populate("user");
             res.status(200).json(privileges)
         } catch (error) {
             res.status(404).json(error.message)
