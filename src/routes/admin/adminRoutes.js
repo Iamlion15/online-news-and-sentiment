@@ -2,6 +2,7 @@ import express from "express";
 import adminController from "../../controllers/adminController";
 import checkAuth from "../../middlewares/checkAuthentication";
 import checkUser from "../../middlewares/checkUser";
+import statisticsController from "../../controllers/statisticsController";
 
 const router=express.Router();
 
@@ -16,6 +17,11 @@ router.post("/login",adminController.login);
 router.get("/getnews",checkAuth,adminController.getAllNews);
 router.get("/getreviews/:id",checkAuth,adminController.getNewsReview);
 router.get("/getrights",checkAuth,adminController.getAllAccessRights);
+router.get("/statistics",checkAuth,statisticsController.newspaperStatistics);
+router.get("/newspaperstats",checkAuth,statisticsController.IndividualNewspaperContribution);
+router.get("/percentagestats",checkAuth,statisticsController.newspaperPercentage);
+
+
 
 
 export default router;
