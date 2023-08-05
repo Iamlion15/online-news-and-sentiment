@@ -87,10 +87,11 @@ class adminController {
         }
     }
 
-    static async getAllReviews(req, res) {
+    static async getNewsReview(req, res) {
+        const newsid = req.params.id;
         try {
-            const reviews = await reviewModel.find().populate('news').populate('personel');
-            res.status(200).json(reviews)
+            const reviews = await reviewModel.find({ news: newsid }).populate('news').populate('user');
+            res.status(200).json( reviews )
         } catch (error) {
             res.status(404).json(error.message)
         }
@@ -106,21 +107,19 @@ class adminController {
         }
     }
     static async updateAccessRights(req, res) {
-        const right = await privilegeModel.findOne({ nID: req.body.nID });
+        const right = await privilegeModel.findOne({ nID: req.body._id });
         let privileg;
-        if(right.privilege=="GRANTED")
-        {
-            privileg="NO_ACCESS"
+        if (right.privilege == "GRANTED") {
+            privileg = "NO_ACCESS"
         }
-        else{
-            if(right.privilege=="GRANTED")
-            {
-                privileg="GRANTED"
+        else {
+            if (right.privilege == "NO_ACCESS") {
+                privileg = "GRANTED"
             }
         }
 
         try {
-            const data = await privilegeModel.findOneAndUpdate(right._id, {...req.body,privilege:privileg});
+            const data = await privilegeModel.findOneAndUpdate(right._id, { ...req.body, privilege: privileg });
             res.status(200).json({ "message": "successfully updated" })
         } catch (error) {
             res.status(404).json(error.message);

@@ -14,7 +14,7 @@ router.get("/getusers",checkAuth,adminController.getallUsers);
 router.get("/getoneuser/:id",checkAuth,adminController.findUser)
 router.post("/login",adminController.login);
 router.get("/getnews",checkAuth,adminController.getAllNews);
-router.get("/getreviews",checkAuth,adminController.getAllReviews);
+router.get("/getreviews/:id",checkAuth,adminController.getNewsReview);
 router.get("/getrights",checkAuth,adminController.getAllAccessRights);
 
 

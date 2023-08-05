@@ -2,6 +2,7 @@ import {Schema,model} from 'mongoose';
 
 const reviewSchema=new Schema({
     comment:String,
+    title:String,
     date:Date,
     user:{
         type:Schema.Types.ObjectId,
