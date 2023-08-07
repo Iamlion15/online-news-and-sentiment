@@ -107,7 +107,7 @@ class adminController {
         }
     }
     static async updateAccessRights(req, res) {
-        const right = await privilegeModel.findOne({ nID: req.body._id });
+        const right = await privilegeModel.findOne({ _id: req.body._id });
         let privileg;
         if (right.privilege == "GRANTED") {
             privileg = "NO_ACCESS"
