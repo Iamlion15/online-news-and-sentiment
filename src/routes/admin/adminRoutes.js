@@ -20,6 +20,14 @@ router.get("/getrights",checkAuth,adminController.getAllAccessRights);
 router.get("/statistics",checkAuth,statisticsController.newspaperStatistics);
 router.get("/newspaperstats",checkAuth,statisticsController.IndividualNewspaperContribution);
 router.get("/percentagestats",checkAuth,statisticsController.newspaperPercentage);
+router.post("/reviewsrange",checkAuth,statisticsController.getReviewsInDateRange);
+router.get("/newsreviewstatus",checkAuth,statisticsController.getReviewedNewsArticlesCount);
+router.get("/newsreviewsentimentstatus",checkAuth,statisticsController.getSentimentReviewCounts);
+router.get("/userstatistics",checkAuth,statisticsController.getUserCountsByPrivilege);
+router.get("/reviewerstats",checkAuth,statisticsController.getUsersWithReviewStatus);
+
+
+
 
 
 

@@ -29,6 +29,18 @@ class UserController {
         }
     }
 
+static async getDetails(req, res) {
+
+        const visitor = await userModel.findOne({ nID: req.user });
+        try {
+            res.status(200).json(visitor)
+        }
+        catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+
+
     static async getallNews(req, res) {
         try {
             const news = await newsModel.find();
@@ -47,6 +59,7 @@ class UserController {
             user: personel._id,
             news: req.body.news
         })
+        console.log(req.body.news);
         try {
             const data = await review.save();
             res.status(200).json({ "message": "successfully saved review" })
@@ -97,6 +110,17 @@ class UserController {
             res.status(404).json(error.message)
         }
     }
+static async updateUser(req, res) {
+        const user = await userModel.findOne({ nID: req.body.nID });
+	console.log(user)
+	console.log(req.body)
+        try {
+            const data = await userModel.findOneAndUpdate(user._id, req.body);
+            res.status(200).json({ "message": "successfully updated" })
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
 
     static async register(req, res) {
         const personel = new userModel({ ...req.body, password: await hashPassword(req.body.password) });
@@ -114,6 +138,7 @@ class UserController {
             }
         }
         catch (error) {
+	console.log(error);
             if (error.code === 11000) {
                 res.status(405).json({ "message": "email has been used" });
             }
