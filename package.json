@@ -6,7 +6,9 @@
   "scripts": {
     "createAdmin": "babel-node src/helpers/adminHelper.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec babel-node src/index.js"
+    "dev": "nodemon --exec babel-node src/index.js",
+    "build": "babel src -d dist",
+    "start": "nodemon --exec babel-node src/index.js",
   },
   "keywords": [],
   "author": "",
